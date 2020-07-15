@@ -1,0 +1,20 @@
+require('module-alias/register')
+
+const Koa = require('koa')
+const bodyParser = require('koa-bodyparser')
+const static = require('koa-static')
+const validate = require('koa-validate')
+
+const Init = require('@core/init')
+const catchError = require('./middleware/exception')
+
+const app = new Koa()
+validate(app)
+
+app.use(catchError)  // 注册全局错误处理
+app.use(bodyParser())
+app.use(static(`${__dirname}/static`))
+
+Init(app)  // 初始化操作
+
+app.listen(3000, () => console.log(`Run in http://localhost:3000`))
