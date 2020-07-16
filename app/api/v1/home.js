@@ -73,6 +73,13 @@ router.get('/spider', async (ctx) => {
     })
   })
 
+  ctx.set({
+    // 'Access-Control-Allow-Credentials': true,
+    'Access-Control-Allow-Origin': '*',
+    // 'Access-Control-Allow-Headers': 'X-Requested-With,Content-Type',
+    // 'Access-Control-Allow-Methods': 'PUT,POST,GET,DELETE,OPTIONS'
+  })
+
   ctx.body = {
     errCode: 0,
     msg: '',

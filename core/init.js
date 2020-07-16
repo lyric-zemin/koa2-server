@@ -4,8 +4,8 @@ const Router = require('koa-router')
 function Init(app) {
   if (!app) return
 
-  initRouter(app)
   registerGlobal()
+  initRouter(app)
 }
 
 function initRouter(app) {
