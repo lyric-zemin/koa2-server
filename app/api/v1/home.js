@@ -1,10 +1,12 @@
 const Router = require('koa-router')
+const axios = require('axios')
+const cheerio = require('cheerio')
 
 const router = new Router({
   prefix: '/v1'
 })
 const { Index } = require('@model')
-const { ParameterException } = require('@core/httpException')
+const { ParameterException, HttpException } = require('@core/httpException')
 const Auth = require('@middleware/auth')
 const { User } = require('@model/user')
 
@@ -40,6 +42,36 @@ router.get('/destory', async (ctx) => {
   }
   const data = await idx.destroy()
   // const data = await idx.restore()
+
+  ctx.body = {
+    errCode: 0,
+    msg: '',
+    data
+  }
+})
+
+router.get('/redirect', async (ctx) => {
+  ctx.redirect('/v1')
+})
+
+router.get('/spider', async (ctx) => {
+  let res
+  try {
+    res = await axios.get('https://v.qq.com')
+  } catch (error) {
+    throw new HttpException()
+  }
+
+  const $ = cheerio.load(res.data)
+  const data = []
+  $('.figure_detail a.figure_title').each((index, element) => {
+    $el = $(element)
+    data.push({
+      index,
+      title: $el.attr('title'),
+      href: $el.attr('href')
+    })
+  })
 
   ctx.body = {
     errCode: 0,

@@ -3,7 +3,7 @@ const { Model, DataTypes } = require('sequelize')
 const sequelize = require('@core/db')
 
 class Index extends Model {
-  
+
 }
 
 Index.init({
@@ -12,7 +12,7 @@ Index.init({
   type: DataTypes.INTEGER
 }, {
   sequelize,
-  paranoid: true
+  paranoid: true  //软删除
 })
 
 module.exports = {
